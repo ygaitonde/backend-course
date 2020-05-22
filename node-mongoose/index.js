@@ -7,18 +7,33 @@ const connect = mongoose.connect(url)
 connect.then((db) => {
     console.log("connected")
     Dishes.create({
-        name: "Uthappizza",
+        name: "fdasf",
         description: "test"
     })
     .then((dish) => {
         console.log(dish)
-        return Dishes.find({}).exec();
+        return Dishes.findByIdAndUpdate(dish._id, {
+            $set: {description: 'Updated test'}
+        }, {
+            new : true
+        }).exec()
     })
-    .then((dishes) => {
-        console.log(dishes)
-        return Dishes.remove({})
+    .then((dish) => {
+        console.log(dish)
+        dish.comments.push({
+            rating: 5,
+            comment: 'great',
+            author: "john doe"
+        })
+        return dish.save();
     })
-    .then(()=>{
+    .then((dish) => {
+        console.log(dish);
+
+        return Dishes.remove({});
+    })
+    .then((dish)=>{
+        console.log(dish)
         return mongoose.connection.close()
     })
     .catch((err)=>{
