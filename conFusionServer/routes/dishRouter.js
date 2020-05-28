@@ -30,7 +30,7 @@ dishRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err))
 })
-.put(authenticate.verifyUser,, authenticate.verifyAdmin, (req,res,next) => {
+.put(authenticate.verifyUser, authenticate.verifyAdmin, (req,res,next) => {
     res.statusCode = 403;
     res.end('PUT not supported on /dishes')
 })
@@ -63,7 +63,7 @@ dishRouter.route('/:dishId')
     res.end('POST not supported on /dishes/'+req.params.dishId)
 })
 
-.put(authenticate.verifyUser, , authenticate.verifyAdmin, (req,res,next) => {
+.put(authenticate.verifyUser, authenticate.verifyAdmin, (req,res,next) => {
     Dishes.findByIdAndUpdate(req.params.dishId, {
         $set: req.body
     }, {new: true})
@@ -74,7 +74,7 @@ dishRouter.route('/:dishId')
     }, (err) => next(err))
     .catch((err) => next(err))
 })
-.delete(authenticate.verifyUser, , authenticate.verifyAdmin, (req,res,next) => {
+.delete(authenticate.verifyUser, authenticate.verifyAdmin, (req,res,next) => {
     Dishes.findByIdAndRemove(req.params.dishId)
     .then((resp) => {
         console.log('Dish removed ', resp)
@@ -221,7 +221,7 @@ dishRouter.route('/:dishId/comments/:commentId')
     }, (err) => next(err))
     .catch((err) => next(err))
 })
-.delete(authenticate.verifyUser,(req,res,next) => {
+.delete(authenticate.verifyUser, (req,res,next) => {
     Dishes.findById(req.params.dishId)
     .then((dish) => {
         if( dish!= null && dish.comments.id(req.params.commentId)!=null){
